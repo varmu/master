@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org/schema/mule/american-flights-api/current/mule-american-flights-api.xsd">
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="bd12f15d-5601-4850-9018-47835805ab48" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<sub-flow name="setCode" doc:id="cb309f0b-1796-4086-b22f-b164bd6a7f91" >
+		<set-variable value="#[message.attributes.queryParams.code default'SFO']" doc:name="code" doc:id="a4deb4bb-f425-41d4-abb3-397d50d74009" variableName="code"/>
+	</sub-flow>
+	<flow name="getAmericanFlights" doc:id="a52789db-e4cb-4c3d-ad10-75a7a80da878" >
+		<http:listener doc:name="GET /american" doc:id="71a3551d-3f49-414a-8c51-34a0ade68398" config-ref="HTTP_Listener_config1" path="/american" allowedMethods="GET"/>
+		<flow-ref doc:name=" setCode" doc:id="f9354495-2796-4716-8c37-51f9a0428797" name="setCode"/>
+		<american-flights-api:get-flights doc:name="Get flights" doc:id="8890d132-bf42-4d2d-b8b4-a8890596e3e3" config-ref="American_Flights_API_Config1" client-id="d1374b15c6864c3682ddbed2a247a826" client-secret="4a87fe7e2e43488c927372AEF981F066" destination="#[vars.code]"/>
+	</flow>
+</mule>
