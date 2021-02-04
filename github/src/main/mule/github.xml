@@ -10,5 +10,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<flow name="githubFlow" doc:id="59215f76-98f0-4182-8f20-93cde49669f9" >
 		<http:listener doc:name="Listener" doc:id="f64c119f-f4ea-4edf-b3fd-0758db487497" config-ref="HTTP_Listener_config" path="/gits"/>
 		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="1731a5ce-e3c1-4344-b42f-7d616571f8a8" />
+		<logger level="INFO" doc:name="Logger" doc:id="286110f8-6722-4a43-9081-ba9951a215b8" message="#[payload]"/>
 	</flow>
 </mule>
